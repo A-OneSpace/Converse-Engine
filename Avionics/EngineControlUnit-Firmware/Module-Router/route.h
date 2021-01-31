@@ -23,13 +23,16 @@ SOFTWARE.*/
 #ifndef MODULE_ROUTER
 #define MODULE_ROUTER
 
-#include"../Components-Module/ecu_components.h"
-#include"../Communication-Module/_telemetry.h"
-#include"../Utility/ecu_gpio.h"
+#include"../MEA-Module/_telemetry.h"
+#include"../Utility/ecu_xx_gpio.h"
 #include"../Utility/definitions.h"
+#include"../Communication-Module/SubController_SPI/requests.h"
 
-#define OPEN 1
-#define CLOSE 0
+#define OPEN (uint8_t) 1
+#define CLOSE (uint8_t) 0
+
+#define READ (uint8_t) 2
+
 
 /*Function to return AETS to module router
 This data is moved to main */
@@ -37,29 +40,29 @@ uint8_t return_AETS_state();
 
 uint8_t telemetry_send();
 
-/*Module Router Independent functions*/
+char* call(char* methodID);
 
-//Function to return pressure 
-uint32_t returnPressure();
+/////////////////////////////////
 
-//Function to return pressure 
-uint32_t returnTemp();
+//Component driver for pressure transducer
+double (pressureTransducer)(char* controllerID);
+
+//Component driver for solenoid valve (Open, close)
+void (valveState)(char* controllerID, uint8_t state);
+
+//Component driver for thermocouple
+double (readThermocouple)(char* controllerID);
+
+//Component driver for chamber igniter
+uint8_t (chamberIgniter)(char* controllerID, uint8_t state);
+
+///////////////EF////////////////
 
 //Fuel Pump task function (ON, OFF)
 uint8_t FuelPump_task(uint8_t task);
 
 //Liquid Oxygen Pump task function (ON, OFF)
 uint8_t LOXPump_task(uint8_t task);
-
-//Main Fuel Valve task function (OPEN, CLOSED)
-uint8_t MFV_task(uint8_t task);
-
-//Main Oxygen Valve function (OPEN, CLOSED)
-uint8_t MOV_task(uint8_t task);
-
-//Chamber Igniter function (ON, OFF)
-uint8_t igniter_task(uint8_t task);
-
 
 
 #endif //MODULE_ROUTER
