@@ -14,8 +14,17 @@ Current
 - Avionics placement analysis
 - Begin ECU PCB design
 
-- Write AETS
+- Update AETS doc to include "predefined comparison based circumstances" and predicted/simulated circumstances
+- Minimize SC code blocking by preparing data before request
 - Finish and Debug Terminal Controller software
 - Module router look-over
-- write testing software
+- write unit tests
 - write production software
+
+Testing
+
+Unit Tests:
+- (Abort) methods 
+- (Control-PID) methods
+- (MEA-Module) methods
+- (SubController_SPI) methods

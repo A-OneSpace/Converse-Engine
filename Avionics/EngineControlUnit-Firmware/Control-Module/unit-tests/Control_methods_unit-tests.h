@@ -20,45 +20,40 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-#ifndef ECU_GPIO_
-#define ECU_GPIO_
+#include<stdio.h>
+#include<stdint.h>
+#include<stdbool.h>
+#include<string.h>
 
-#include "../libs/stm32/spl/variants/stm32f4/src/stm32f4xx_gpio.c"
-#include "../libs/stm32/cmsis/variants/stm32f4/stm32f4xx.h"
-#include"definitions.h"
+typedef uint8_t AETS_FLAG;
+#define NO_FLAG (uint8_t) 0
+#define FLAG (uint8_t) 1
 
-//0x1
-#define CLOCK_A (RCC_AHB1Periph_GPIOA)
-//0x2
-#define CLOCK_B (RCC_AHB1Periph_GPIOB)
-//0x4
-#define CLOCK_C (RCC_AHB1Periph_GPIOC)
-//0x8
-#define CLOCK_D (RCC_AHB1Periph_GPIOD)
+//Function to compare channel data
+AETS_FLAG compare(uint32_t data_1, uint32_t timestamp_1, uint32_t data_2, uint32_t timestamp_2){
+    //Compare two data sets to their corresponding timestamps
+    uint8_t flag = 0;
+    //Check timestamps
+    uint8_t time_grace;
+    uint8_t data_grace;
+    //Make sure time difference is acceptable
+    
+    //Compare
+    //Simulation data holds greater weight
+    if(data_1 > (data_2 + data_grace) || data_1 < (data_2 - data_grace)){
+        //flag
+        flag = FLAG;
+    }else{
+        //no flag. In bounds
+    }
+    return flag;
+}
 
-#define IN (GPIO_Mode_IN)
-
-#define OUT (GPIO_Mode_OUT)
-
-//Setup Function
-
-//Set GPIO Pin register to HIGH
-void (SET_ECU_GPIO_HIGH)(uint8_t PIN,uint32_t _clock_);
-
-//Set GPIO Pin register to LOW
-void (SET_ECU_GPIO_LOW)(uint8_t PIN,uint32_t _clock_);
-
-//
-void (GPIO_READ_DIGITAL)(uint8_t PIN,uint32_t _clock_);
-
-//
-void (GPIO_READ_ANALOG)(uint8_t PIN,uint32_t _clock_);
-
-//
-void (GPIO_WRITE)(uint8_t PIN,uint32_t _clock_);
-
-//Set GPIO-Mode (IN,OUT,Analog,Alternate function)
-void (SET_GPIO_MODE)(uint8_t PIN,uint8_t mode,uint32_t _clock_);
-
-
-#endif //ECU_GPIO
+//Function to check if measured value is in nominal bounds
+uint8_t check_if_in_range(uint32_t actual_value,uint32_t rangeLow,uint32_t rangeHigh){
+    uint8_t nominal = 1;
+    if(actual_value < rangeLow || actual_value > rangeHigh){
+        nominal = 0;
+    }
+    return nominal;
+}

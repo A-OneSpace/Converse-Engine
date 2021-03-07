@@ -1,0 +1,49 @@
+Telemetry data
+
+RAW DATA
+
+Sensor Telemetry:
+
+- Post-Inlet fuel transducer
+- Post-Inlet oxidizer transducer
+- Pre Chamber fuel transducer
+- Pre Chamber oxidizer transducer
+- Pre Chamber fuel thermocouple
+- Pre Chamber oxidizer thermocouple
+
+
+
+Sub Controller Telemetry:
+
+- Instruction recieved time
+- Response time
+- Sensor Calculation time
+
+
+
+ECU Controller Telemetry:
+
+- Engine Current Task (timestamp-begin)
+- Errors
+
+- Sub Controller Comm identifier
+- Sub Controller Comm send-time
+- Sub Controller Comm recieved-time
+
+- Ground RF Comm Instruction recieved time
+- Ground RF Comm Instruction response time
+
+
+
+MEASURED DATA
+
+- ethanol mass flow (through pipes)
+- lox mass flow (through pipes)
+- inlet lox pressure
+- inlet ethanol pressure
+- chamber pressure
+- thrust 
+
+
+
+

@@ -20,47 +20,46 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-#include"_AETS.h"
+#ifndef AETS_
+#define AETS_
+
+#include"../../Utility/definitions.h"
+#include"../../Utility/ecu_xx_flash.h"
+
+typedef uint8_t AETS_FLAG;
+#define NO_FLAG (uint8_t) 0
+#define FLAG (uint8_t) 1
+
+#define PRESSURE_RANGE_LOW 0
+#define PRESSURE_RANGE_HIGH 0
+#define TEMP_RANGE_LOW 0
+#define TEMP_RANGE_HIGH 0
+
+//AETS VERSION 1
+
+//AETS V1 prog wil be based on monitoring test data 
+//ranges without continuous assesment of all data
+// AETS will check if (data) < thresh: 
+
+uint32_t measuredData[50][50]; // Data stored in heap is temporary. Will overflow if not chnaged
 
 //AETS driver
-uint8_t aets(uint8_t dataChannel,uint32_t data, uint32_t time){
-    //Simulation data array
-    uint8_t *dataArray = lookup(dataChannel);
-    //get precise 
-    uint8_t *pr = separateDataTimestamp(dataArray,time);
-    return compare(data,time,pr[0],pr[1]);
-}
+//+1 Overload
+uint8_t aets(uint8_t dataChannel,uint32_t data, uint32_t time);
+
+uint8_t aets();
 
 //Function to lookup simulated data for channel and return data array
-uint32_t *lookup(uint8_t dataChannel){
-    //Shift data from flash to heap (RAM)
-    
-}
+uint32_t *lookup(uint8_t dataChannel);
 
 //From simulation data array, get simulation data at timestamp 
-uint8_t *separateDataTimestamp(uint8_t *dataArray,uint32_t timestamp){
-    //Data Array is 1D and in format .{data[0], timestamp[1]}
-    //Array Size 
-    uint32_t size;
-
-}
+uint8_t *separateDataTimestamp(uint8_t *dataArray,uint32_t timestamp);
 
 //Function to compare channel data
-AETS_FLAG compare(uint32_t data_1, uint32_t timestamp_1, uint32_t data_2, uint32_t timestamp_2){
-    //Compare two data sets to their corresponding timestamps
-    uint8_t flag = 0;
-    //Check timestamps
-    uint8_t time_grace;
-    uint8_t data_grace;
-    //Make sure time difference is acceptable
-    
-    //Compare
-    //Simulation data holds greater weight
-    if(data_1 > (data_2 + data_grace) || data_1 < (data_2 - data_grace)){
-        //flag
-        flag = FLAG;
-    }else{
-        //no flag. In bounds
-    }
-    return flag;
-}
+AETS_FLAG compare(uint32_t data_1, uint32_t timestamp_1, uint32_t data_2, uint32_t timestamp_2);
+
+//Function to check if measured value is in nominal bounds
+uint8_t check_if_in_range(uint32_t actual_value,uint32_t rangeLow,uint32_t rangeHigh);
+
+
+#endif

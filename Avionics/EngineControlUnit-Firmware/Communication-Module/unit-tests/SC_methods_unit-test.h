@@ -20,24 +20,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-#include "requests.h"
-
-//Function executes request for communication with a controller
-double controllerRequest(char* baseID,uint8_t control_assignment){
-    /*System request for communication with a controller
-      Retrieval of base ID of destination controller 
-      Appending of control assignment to base ID to create "Working ID"
-      Sending of Working ID to destination controller*/
-    char* WorkingID;
-    if(verifyBaseID(baseID) == 0){
-        WorkingID = createWorkingID(baseID,control_assignment);
-    }else{
-        //Error Handling
-    }
-    transmitWorkingID(WorkingID);
-    //Return
-
-}
+#include<stdio.h>
+#include<stdint.h>
+#include<stdbool.h>
+#include<string.h>
 
 //Function verifies base ID.
 //Return 0 = Verified | Return 1 = failed
@@ -52,11 +38,11 @@ uint8_t verifyBaseID(char* baseID){
 
     //Verify existence
     //Search ID data structure for base ID
-    for(uint8_t i = 0; i < ID_LEN;++i){
+    /*for(uint8_t i = 0; i < ID_LEN;++i){
         if(IDS[i][1]!= baseID){
             failed = 1;
         }else{break;}
-    }
+    }*/
     return failed;
 }
 
@@ -66,10 +52,4 @@ char* createWorkingID(char* baseID, char* control_assignment){
     char* WorkingID = baseID;
     strcat(WorkingID,control_assignment);
     return WorkingID;
-}
-
-//Function executes sending of Working ID to destination controller
-char* transmitWorkingID(char* WorkingID){
-    //Log transmission
-    log("Sub Controller Comm send-time",time(),WorkingID);
 }

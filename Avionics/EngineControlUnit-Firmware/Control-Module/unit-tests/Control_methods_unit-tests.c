@@ -20,35 +20,37 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-#ifndef AETS_
-#define AETS_
+#include"Control_methods_unit-tests.h"
 
-#include"../Utility/definitions.h"
-#include"../Utility/ecu_xx_flash.h"
+/* Methods Tested:
+    AETS_FLAG compare(uint32_t data_1, uint32_t timestamp_1, uint32_t data_2, uint32_t timestamp_2);
 
-typedef uint8_t AETS_FLAG;
-#define NO_FLAG (uint8_t) 0
-#define FLAG (uint8_t) 1
-
-//AETS VERSION 1
-
-//AETS V1 prog wil be based on monitoring test data 
-//ranges without continuous assesment of all data
-// AETS will check if (data) < thresh: 
-
-uint32_t measuedData[50][50]; // Data stored in heap is temporary. Will overflow if not chnaged
-
-//AETS driver
-uint8_t aets(uint8_t dataChannel,uint32_t data, uint32_t time);
-
-//Function to lookup simulated data for channel and return data array
-uint32_t *lookup(uint8_t dataChannel);
-
-//From simulation data array, get simulation data at timestamp 
-uint8_t *separateDataTimestamp(uint8_t *dataArray,uint32_t timestamp);
-
-//Function to compare channel data
-AETS_FLAG compare(uint32_t data_1, uint32_t timestamp_1, uint32_t data_2, uint32_t timestamp_2);
+    uint8_t check_if_in_range(uint32_t actual_value,uint32_t rangeLow,uint32_t rangeHigh);
 
 
-#endif
+*/
+
+int main(){
+    //Test
+    test_check_in_range();
+
+}
+
+void testOutput(char* method,char* result,bool status){
+    printf("%s\n","UNIT TEST - Control methods");
+    printf("%s", "METHOD:");
+    printf("%s\n", method);
+    printf("%s", "RESULT:");
+    printf("%s\n", result);
+    printf("%s", "STATUS:");
+    if(status){printf("%s", "PASS");}else{printf("%s", "UNDEF");}
+}
+
+void test_check_in_range(){
+    //Test data
+    uint32_t testRangeHigh = 70;
+    uint32_t testRangeLow = 40;
+    uint32_t test_values[4] = {0,63,79,13};
+    
+    
+}

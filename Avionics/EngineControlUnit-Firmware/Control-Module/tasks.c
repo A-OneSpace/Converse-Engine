@@ -42,17 +42,22 @@ uint32_t *compile_sensor_data(){
 
 //Engine Startup Task - !! Separate timer from opening sequence !!
 void (engineStartup)(void){
+    log("EVENT-ENGINE-STARTUP",time(),"-");
     //Open Gas flow route <- Tank computer
     //Open Main Fuel Valve
     valveState(FUEL_VALVE_BASE_ID,OPEN);
     //Open Main Oxidizer Valve
     valveState(OXYGEN_VALVE_BASE_ID,OPEN);
+    //Timing for igniter start dependent on mass flow and pipe distance
+    //See igniter docs
     //Activate Igniter
     chamberIgniter(CHAMBER_IGNITER_BASE_ID,OPEN);
 }
 
 //Engine Shutdown Task
 void (engineShutdown)(void){
+    //Log Event
+    log("EVENT-ENGINE-SHUTDOWN",time(),"-");
     //Shutdown Procedure
     //Close fuel valve
     valveState(FUEL_VALVE_BASE_ID,CLOSE);
@@ -63,6 +68,7 @@ void (engineShutdown)(void){
 //Engine Purging
 //Purging of the main feed lines (Igniter Tap Off Line not purged)
 void enginePurge(void){
+    log("EVENT-ENGINE-PURGE",time(),"-");
     //Request gas tank valve open
     //Open purge inlet valve
     valveState(PURGE_VALVE_BASE_ID,OPEN);
@@ -77,6 +83,7 @@ void enginePurge(void){
 
 //Engine Chill
 void engineChill(void){
+    log("EVENT-ENGINE-CHILL",time(),"-");
     //LOX
     //Melting Point = -114
     //Boiling Point

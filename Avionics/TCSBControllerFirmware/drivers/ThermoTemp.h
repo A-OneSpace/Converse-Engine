@@ -20,6 +20,8 @@
 #ifndef ThermoTemp_h
 #define ThermoTemp_h
 
+//Return analog signal from thermocouple
+double thermocoupleAnalog();
 
 void getTemps(int analogSignalF, double tempsF[]);
 
@@ -27,7 +29,7 @@ double getVoltage(double analogSignal);
 
 double getCelsius(double voltage);
 
-double getKelvin(double clesius);
+double getKelvin(double celsius);
 
 double getFahrenheit(double celsius);
 
