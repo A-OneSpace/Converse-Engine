@@ -20,48 +20,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.*/
 
-#ifndef MAIN_
-#define MAIN_
-
-#include"../Control-Module/controller_tasks.h"
-
-//Through spi interface, ECU recieves instructions from main computer
+#ifndef G_COMMS
+#define G_COMMS
 
 
-#define ENGINE_STATE 0
+void transmit_telemetry(char* data);
 
-int main(){
-    _init_();
-    while(1){
-        #if ENGINE_STATE == 0 // IDLE
-        _IDLE_();
-        if(SWITCH2PREP() == 1){
-            #undef ENGINE_STATE
-            #define ENGINE_STATE 1
-        }
-        #endif
+char* recieve_telemetry();
 
-        #if ENGINE_STATE == 1 // PREP
-        _PREP_();
-        if(SWITCH2ARMED() == 1){
-            #undef ENGINE_STATE
-            #define ENGINE_STATE 2
-        }
-        #endif
+void checksumData();
 
-        #if ENGINE_STATE == 2 // ARMED
-        _ARMED_();
-        if(SWITCH2IDLE() == 1){
-            #undef ENGINE_STATE
-            #define ENGINE_STATE 0
-        }
-
-        #if ENGINE_STATE == 3 // ARMED
-        _bypass_();
-        #endif
-
-    }
-}
-
-
-#endif // MAIN_
+#endif
